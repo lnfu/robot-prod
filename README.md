@@ -1,6 +1,6 @@
 # robot-prod
 
-robot-prod offers some base production Docker images for robotics and computer vision.
+Unified lightweight production base Docker images for robotics and computer vision.
 
 ## Available Tags
 
