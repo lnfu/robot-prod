@@ -6,7 +6,6 @@ ENV LANG=en_US.UTF-8 \
     ROS_DISTRO=humble
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update -y && \
-    # Install essential tools and locale without interactive prompts
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     locales \
     curl \
@@ -26,15 +25,11 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update -y && \
     && curl -L -o /tmp/ros2-apt-source.deb \
     "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo $VERSION_CODENAME)_all.deb" \
     && dpkg -i /tmp/ros2-apt-source.deb \
-    && rm /tmp/ros2-apt-source.deb \
-    \
-    # Update package lists again (ROS apt source just added)
-    && DEBIAN_FRONTEND=noninteractive apt-get update -y && \
-    # Install ROS Humble base packages without interactive prompts
+    && rm /tmp/ros2-apt-source.deb && \
+    # ROS2 Humble
+    DEBIAN_FRONTEND=noninteractive apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     ros-humble-ros-base \
-    \
-    # Clean up to reduce image size
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /entrypoint.sh
